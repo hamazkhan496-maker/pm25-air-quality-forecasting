@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM2.5 Forecasting Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="logo"><div class="logo-icon">PM₂.₅</div><div><h2>AirSense AI</h2><span>Forecasting Platform</span></div></div>
+        <nav class="navigation">
+            <a class="nav-item active" href="#overview"><span class="nav-icon">⌂</span>Overview</a>
+            <a class="nav-item" href="#forecast"><span class="nav-icon">◉</span>Forecast</a>
+            <a class="nav-item" href="#models"><span class="nav-icon">▦</span>Models</a>
+            <a class="nav-item" href="#environment"><span class="nav-icon">◌</span>Environment</a>
+            <a class="nav-item" href="#xai"><span class="nav-icon">✦</span>Explainable AI</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="system-status"><span class="status-dot"></span><div><strong id="systemStatus">Connecting...</strong><small id="systemSub">Loading backend</small></div></div>
+            <div class="sidebar-footer"><span>One-step ahead</span><span>v1.0</span></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div><div class="eyebrow">AIR QUALITY INTELLIGENCE</div><h1>PM2.5 Forecasting</h1><p class="subtitle">Real one-step-ahead prediction using 16 trained machine-learning and deep-learning models.</p></div>
+            <div class="topbar-right"><div class="last-update"><span class="update-dot"></span><div><small>Last dataset record</small><strong id="lastUpdate">—</strong></div></div><button class="refresh-btn" id="refreshBtn">↻ Refresh</button></div>
+        </header>
+
+        <section class="dashboard-section" id="overview">
+            <div class="section-heading"><div><span class="section-label">LIVE OVERVIEW</span><h2>Current Air Quality</h2></div><span class="date-display" id="refreshStatus">Connected to Python backend</span></div>
+            <div class="metrics-grid">
+                <div class="metric-card primary"><div class="metric-header"><span>Current PM2.5</span><div class="metric-icon">PM</div></div><div class="metric-value"><span id="currentPM25">—</span><small>µg/m³</small></div><div class="metric-status good">Latest observed value</div></div>
+                <div class="metric-card forecast-card" id="forecast"><div class="metric-header"><span>Next-Step Prediction</span><div class="metric-icon">AI</div></div><div class="metric-value"><span id="forecastPM25">—</span><small>µg/m³</small></div><div class="prediction-change" id="predictionChange">—</div></div>
+                <div class="metric-card"><div class="metric-header"><span>Temperature</span><div class="metric-icon">°C</div></div><div class="metric-value"><span id="temperature">—</span><small>°C</small></div><div class="metric-description">Latest sensor reading</div></div>
+                <div class="metric-card"><div class="metric-header"><span>Humidity</span><div class="metric-icon">RH</div></div><div class="metric-value"><span id="humidity">—</span><small>%RH</small></div><div class="metric-description">Latest sensor reading</div></div>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="chart-card"><div class="chart-header"><div><h3>Actual vs Predicted PM2.5</h3><p>Chronological test-set predictions</p></div><select class="select-control" id="modelSelect"><option>GRU</option><option>RNN</option><option>LSTM</option><option>CNN-LSTM</option><option>CNN</option><option>XGBoost</option><option>Random Forest</option><option>Extra Trees</option><option>Gradient Boosting</option><option>Ridge</option><option>Lasso</option><option>Linear Regression</option><option>KNN</option><option>SVR</option><option>MLP</option><option>Decision Tree</option></select></div><div class="chart-container"><canvas id="trendChart"></canvas></div></div>
+        </section>
+
+        <section class="dashboard-section" id="environment">
+            <div class="section-heading"><div><span class="section-label">SENSOR DATA</span><h2>Current Environmental Measurements</h2></div></div>
+            <div class="sensor-grid">
+                <div class="sensor-card"><div class="sensor-icon">PM10</div><div><span>PM10</span><strong id="sensorPM10">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">CO</div><div><span>Carbon Monoxide</span><strong id="sensorCO">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">NO</div><div><span>Nitrogen Oxide</span><strong id="sensorNO">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">O₃</div><div><span>Ozone</span><strong id="sensorO3">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">SO₂</div><div><span>Sulfur Dioxide</span><strong id="sensorSO2">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">VOC</div><div><span>TVOC</span><strong id="sensorTVOC">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">WND</div><div><span>Wind Speed</span><strong id="sensorWind">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">RH</div><div><span>Humidity</span><strong id="sensorHumidity">—</strong></div></div>
+                <div class="sensor-card"><div class="sensor-icon">DIR</div><div><span>Wind Direction</span><strong id="sensorDirection">—</strong></div></div>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="models">
+            <div class="section-heading"><div><span class="section-label">MODEL BENCHMARK</span><h2>16-Model Performance</h2></div></div>
+            <div class="model-layout">
+                <div class="table-card"><div class="table-header"><h3>Test-set metrics</h3><p>Lower MAE/RMSE and higher R² indicate better performance.</p></div><div class="table-wrapper"><table><thead><tr><th>Rank</th><th>Model</th><th>MAE</th><th>RMSE</th><th>R²</th></tr></thead><tbody id="modelTableBody"></tbody></table></div></div>
+                <div class="best-model-card"><span class="section-label">BEST TEST MODEL</span><div class="best-model-icon">★</div><h3 id="bestModelName">—</h3><p>Selected automatically from the test-set RMSE ranking.</p><div class="best-model-metrics"><div><span>MAE</span><strong id="bestMAE">—</strong></div><div><span>RMSE</span><strong id="bestRMSE">—</strong></div><div><span>R²</span><strong id="bestR2">—</strong></div></div></div>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-heading"><div><span class="section-label">VALIDATION</span><h2>Prediction Diagnostics</h2></div></div>
+            <div class="validation-grid"><div class="chart-card"><div class="chart-header"><div><h3>Actual vs Predicted</h3><p>Test-set scatter</p></div></div><div class="chart-container"><canvas id="scatterChart"></canvas></div></div><div class="chart-card"><div class="chart-header"><div><h3>Residuals</h3><p>Actual − predicted</p></div></div><div class="chart-container"><canvas id="residualChart"></canvas></div></div></div>
+        </section>
+
+        <section class="dashboard-section" id="xai">
+            <div class="section-heading"><div><span class="section-label">EXPLAINABLE AI</span><h2>Why does the model predict this?</h2></div></div>
+            <div class="xai-layout"><div class="chart-card"><div class="chart-header"><div><h3>Global SHAP Feature Importance</h3><p>XGBoost TreeExplainer on the test set</p></div></div><div class="chart-container"><canvas id="xaiChart"></canvas></div></div><div class="explanation-card"><h3>Latest prediction contributors</h3><div id="xaiList"></div></div></div>
+        </section>
+
+        <footer><div><strong>AirSense AI</strong> PM2.5 one-step forecasting dashboard</div><div>Dataset: air_quality.csv · 16 trained models</div></footer>
+    </main>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>

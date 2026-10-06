@@ -1,0 +1,13 @@
+feature,shap,abs_shap,direction
+PM25/ug/m3,-2.9274657,2.9274657,decreases
+PM25/ug/m3_rollmean_3,-0.3814634,0.3814634,decreases
+SO2/ppb,0.2724718,0.2724718,increases
+CO/ppm,-0.21008728,0.21008728,decreases
+hour_cos,-0.19280326,0.19280326,decreases
+Temperature,-0.18209673,0.18209673,decreases
+PM25/ug/m3_lag_1,-0.14144231,0.14144231,decreases
+Humidity/%RH,-0.110876895,0.110876895,decreases
+O3/ppb,0.10806601,0.10806601,increases
+NO/ppb,0.08808609,0.08808609,increases
+wind_speed/m/s,-0.07562165,0.07562165,decreases
+PM25/ug/m3_rollstd_6,0.07518773,0.07518773,increases
